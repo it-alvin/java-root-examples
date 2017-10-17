@@ -1,0 +1,44 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>${project.version}-bin</id>
+    <formats>
+        <!-- 可以放在goals中声明比较好 -->
+        <format>tar.gz</format>
+    </formats>
+    <!-- 默认在归档文件中包含一个基本目录，如果为false则表示没有 -->
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <!-- 如果没有设置此参数并且includeBaseDirectory参数设置true，则用${project.build.finalName}表示目录名称 -->
+    <baseDirectory>${project.artifactId}-${project.version}</baseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.rootpath}${file.separator}tomcat${file.separator}bin</directory>
+            <outputDirectory>${file.separator}bin</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>*.sh</include>
+                <include>*.bat</include>
+            </includes>
+            <filtered>true</filtered>
+        </fileSet>
+        <fileSet>
+            <directory>${project.rootpath}${file.separator}tomcat${file.separator}conf</directory>
+            <outputDirectory>${file.separator}conf</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>server.xml</include>
+            </includes>
+            <filtered>true</filtered>
+        </fileSet>
+        <fileSet>
+            <directory>${project.rootpath}${file.separator}tomcat</directory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>${file.separator}webapps</outputDirectory>
+            <includes>
+                <include>${project.build.finalName}.war</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>
